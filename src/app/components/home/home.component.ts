@@ -12,11 +12,18 @@ export class HomeComponent {
   paises: any[] = [];
   nuevasCanciones: any[] = [];
   loading: boolean;
+  error: boolean = false;
+  mensajeError: string = '';
   constructor(private spotifyService: SpotifyService) {
+    this.error = false;
     this.loading = true;
     this.spotifyService.getNewReleases().subscribe(
       (data: any) => {
         this.nuevasCanciones = data;
+        this.loading = false;
+      }, ( errorServicio ) => {
+        this.error = true;
+        this.mensajeError = errorServicio.error.error.message;
         this.loading = false;
       });
 
